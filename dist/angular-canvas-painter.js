@@ -65,18 +65,18 @@ angular.module('pw.canvas-painter')
         options.undo = options.undo || false;
 
         var imageSrc = scope.imageSrc;
-        console.log('starting directive, imageSrc is', scope.imageSrc);
+        console.log('starting directive, imageSrc is', imageSrc);
 
         // background image
-        if (scope.imageSrc) {
-          console.log('Scope image src is ' + scope.imageSrc);
+        if (imageSrc) {
+          console.log('Scope image src is ' + imageSrc);
           var image = new Image();
           image.onload = function() {
             ctx.drawImage(this, 0, 0);
           };
-          image.src = scope.imageSrc;
+          image.src = imageSrc;
 
-          scope.$watch('imageSrc', function(newVal) {
+          scope.$watch(function(){return scope.imageSrc;}, function(newVal) {
             console.log('new image src ', newVal);
             var image = new Image();
             image.onload = function() {
