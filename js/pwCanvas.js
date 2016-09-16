@@ -120,6 +120,16 @@ angular.module('pw.canvas-painter')
           }
         });
 
+        scope.$watch('options.imageSrc', function(newValue) {
+          if (newValue) {
+              var image = new Image();
+              image.onload = function() {
+                  ctx.drawImage(this, 0, 0);
+              };
+              image.src = newValue;
+          }
+        });
+
         var getOffset = function(elem) {
           var offsetTop = 0;
           var offsetLeft = 0;
