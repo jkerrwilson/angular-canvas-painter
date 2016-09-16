@@ -6,7 +6,8 @@ angular.module('pw.canvas-painter')
       restrict: 'AE',
       scope: {
         options: '=',
-        version: '='
+        version: '=',
+        imgSource: '='
       },
       templateUrl: '../templates/canvas.html',
       link: function postLink(scope, elm) {
@@ -29,15 +30,14 @@ angular.module('pw.canvas-painter')
         options.opacity = options.opacity || 0.9;
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
-        options.imageSrc = options.imageSrc || false;
 
         // background image
-        if (options.imageSrc) {
+        if (scope.imageSrc) {
           var image = new Image();
           image.onload = function() {
             ctx.drawImage(this, 0, 0);
           };
-          image.src = options.imageSrc;
+          image.src = scope.imageSrc;
         }
 
         //undo
@@ -120,7 +120,7 @@ angular.module('pw.canvas-painter')
           }
         });
 
-        scope.$watch('options.imageSrc', function(newValue) {
+        scope.$watch('scope.imageSrc', function(newValue) {
           if (newValue) {
               var image = new Image();
               image.onload = function() {
