@@ -1,7 +1,7 @@
 /*!
- * angular-canvas-painter - v0.5.2
+ * angular-canvas-painter - v0.5.3
  *
- * Copyright (c) 2015, Philipp Wambach
+ * Copyright (c) 2016, Philipp Wambach
  * Released under the MIT license.
  */
 'use strict';
@@ -39,7 +39,8 @@ angular.module('pw.canvas-painter')
       restrict: 'AE',
       scope: {
         options: '=',
-        version: '='
+        version: '=',
+        imageSrc: '='
       },
       templateUrl: '../templates/canvas.html',
       link: function postLink(scope, elm) {
@@ -62,15 +63,27 @@ angular.module('pw.canvas-painter')
         options.opacity = options.opacity || 0.9;
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
-        options.imageSrc = options.imageSrc || false;
+
+        var imageSrc = scope.imageSrc;
+        console.log('starting directive, imageSrc is', scope.imageSrc);
 
         // background image
-        if (options.imageSrc) {
+        if (scope.imageSrc) {
+          console.log('Scope image src is ' + scope.imageSrc);
           var image = new Image();
           image.onload = function() {
             ctx.drawImage(this, 0, 0);
           };
-          image.src = options.imageSrc;
+          image.src = scope.imageSrc;
+
+          scope.$watch('imageSrc', function(newVal) {
+            console.log('new image src ', newVal);
+            var image = new Image();
+            image.onload = function() {
+              ctx.drawImage(this, 0, 0);
+            };
+            image.src = newVal;
+          });
         }
 
         //undo
