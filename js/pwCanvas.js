@@ -31,27 +31,26 @@ angular.module('pw.canvas-painter')
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
 
-        var imageSrc = scope.imageSrc;
-        console.log('starting directive, imageSrc is', imageSrc);
+        console.log('starting directive, imageSrc is', scope.imageSrc);
 
         // background image
-        if (imageSrc) {
-          console.log('Scope image src is ' + imageSrc);
+        if (scope.imageSrc) {
+          console.log('Scope image src is ' + scope.imageSrc);
           var image = new Image();
           image.onload = function() {
             ctx.drawImage(this, 0, 0);
           };
-          image.src = imageSrc;
-
-          scope.$watch(function(){return scope.imageSrc;}, function(newVal) {
-            console.log('new image src ', newVal);
-            var image = new Image();
-            image.onload = function() {
-              ctx.drawImage(this, 0, 0);
-            };
-            image.src = newVal;
-          });
+          image.src = scope.imageSrc;
         }
+
+        scope.$watch(function(){return scope.imageSrc;}, function(newVal) {
+          console.log('new image src ', newVal);
+          var image = new Image();
+          image.onload = function() {
+              ctx.drawImage(this, 0, 0);
+          };
+          image.src = newVal;
+        });
 
         //undo
         if (options.undo) {
