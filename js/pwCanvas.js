@@ -28,6 +28,7 @@ angular.module('pw.canvas-painter')
         options.opacity = options.opacity || 0.9;
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
+        options.backgroundColor = options.backgroundColor || '#000';
 
         //undo
         if (options.undo) {
@@ -78,8 +79,9 @@ angular.module('pw.canvas-painter')
         canvas.height = canvasTmp.height = options.height;
 
         //set context style
-        ctx.fillStyle = options.backgroundColor;
-        ctx.stroke(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = options.backgroundColor;
+        ctx.rect(0,0, canvas.width, canvas.height);
+        ctx.stroke();
         ctxTmp.globalAlpha = options.opacity;
         ctxTmp.lineJoin = ctxTmp.lineCap = 'round';
         ctxTmp.lineWidth = 10;
