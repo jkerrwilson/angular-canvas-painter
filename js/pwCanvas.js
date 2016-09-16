@@ -6,8 +6,7 @@ angular.module('pw.canvas-painter')
       restrict: 'AE',
       scope: {
         options: '=',
-        version: '=',
-        imgSource: '='
+        version: '='
       },
       templateUrl: '../templates/canvas.html',
       link: function postLink(scope, elm) {
@@ -30,14 +29,15 @@ angular.module('pw.canvas-painter')
         options.opacity = options.opacity || 0.9;
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
+        options.imageSrc = options.imageSrc || false;
 
         // background image
-        if (scope.imageSrc) {
+        if (options.imageSrc) {
           var image = new Image();
           image.onload = function() {
             ctx.drawImage(this, 0, 0);
           };
-          image.src = scope.imageSrc;
+          image.src = options.imageSrc;
         }
 
         //undo
@@ -89,8 +89,8 @@ angular.module('pw.canvas-painter')
         canvas.height = canvasTmp.height = options.height;
 
         //set context style
-        ctx.fillStyle = options.backgroundColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //ctx.fillStyle = options.backgroundColor;
+        //ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctxTmp.globalAlpha = options.opacity;
         ctxTmp.lineJoin = ctxTmp.lineCap = 'round';
         ctxTmp.lineWidth = 10;
@@ -117,16 +117,6 @@ angular.module('pw.canvas-painter')
         scope.$watch('options.opacity', function(newValue) {
           if (newValue) {
             ctxTmp.globalAlpha = newValue;
-          }
-        });
-
-        scope.$watch('scope.imageSrc', function(newValue) {
-          if (newValue) {
-              var image = new Image();
-              image.onload = function() {
-                  ctx.drawImage(this, 0, 0);
-              };
-              image.src = newValue;
           }
         });
 
