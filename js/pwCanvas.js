@@ -6,7 +6,8 @@ angular.module('pw.canvas-painter')
       restrict: 'AE',
       scope: {
         options: '=',
-        version: '='
+        version: '=',
+        imageSrc: '='
       },
       templateUrl: '../templates/canvas.html',
       link: function postLink(scope, elm) {
@@ -29,15 +30,24 @@ angular.module('pw.canvas-painter')
         options.opacity = options.opacity || 0.9;
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
-        options.imageSrc = options.imageSrc || false;
 
         // background image
-        if (options.imageSrc) {
+        if (scope.imageSrc) {
+          console.log('Scope image src is ' + scope.imageSrc);
           var image = new Image();
           image.onload = function() {
             ctx.drawImage(this, 0, 0);
           };
-          image.src = options.imageSrc;
+          image.src = scope.imageSrc;
+
+          scope.$watch('imageSrc', function(newVal) {
+            console.log('new image src ', newVal);
+            var image = new Image();
+            image.onload = function() {
+              ctx.drawImage(this, 0, 0);
+            };
+            image.src = scope.imageSrc;
+          });
         }
 
         //undo
@@ -89,8 +99,8 @@ angular.module('pw.canvas-painter')
         canvas.height = canvasTmp.height = options.height;
 
         //set context style
-        //ctx.fillStyle = options.backgroundColor;
-        //ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = options.backgroundColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctxTmp.globalAlpha = options.opacity;
         ctxTmp.lineJoin = ctxTmp.lineCap = 'round';
         ctxTmp.lineWidth = 10;
