@@ -31,6 +31,9 @@ angular.module('pw.canvas-painter')
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
 
+        var imageSrc = scope.imageSrc;
+        console.log('starting directive, imageSrc is', scope.imageSrc);
+
         // background image
         if (scope.imageSrc) {
           console.log('Scope image src is ' + scope.imageSrc);
@@ -46,7 +49,7 @@ angular.module('pw.canvas-painter')
             image.onload = function() {
               ctx.drawImage(this, 0, 0);
             };
-            image.src = scope.imageSrc;
+            image.src = newVal;
           });
         }
 
