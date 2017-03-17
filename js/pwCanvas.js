@@ -21,8 +21,8 @@ angular.module('pw.canvas-painter')
         var options = scope.options;
         options.canvasId = options.customCanvasId || 'pwCanvasMain';
         options.tmpCanvasId = options.customCanvasId ? (options.canvasId + 'Tmp') : 'pwCanvasTmp';
-        options.width = options.width || 400;
-        options.height = options.height || 300;
+        options.width = options.width || 12;
+        options.height = (options.width*300)/12;
         options.color = options.color || '#000';
         options.undoEnabled = options.undoEnabled || false;
         options.opacity = options.opacity || 0.9;
@@ -75,8 +75,8 @@ angular.module('pw.canvas-painter')
         var ppts = [];
 
         //set canvas size
-        canvas.width = canvasTmp.width = options.width;
-        canvas.height = canvasTmp.height = options.height;
+        canvas.width = canvasTmp.width = (options.width*650)/12;
+        canvas.height = canvasTmp.height = options.height = (options.width*300)/12;
 
         //set context style
         ctx.strokeStyle = options.backgroundColor;
@@ -111,13 +111,13 @@ angular.module('pw.canvas-painter')
           }
         });
 
-          scope.$watch('options.height', function(newValue) {
-              console.log("watching height " + newValue)
-          });
-
-          scope.$watch('options.width', function(newValue) {
-              console.log("watching width " + newValue)
-          });
+        scope.$watch('options.width', function(newValue) {
+            var calc_width = newValue || 12;
+            canvas.width = canvasTmp.width = options.width = (calc_width*650)/12;
+            canvas.height = canvasTmp.height = options.height = (calc_width*300)/12;
+            ctx.rect(0,0, canvas.width, canvas.height);
+            ctx.stroke();
+        });
 
         var getOffset = function(elem) {
           var offsetTop = 0;
