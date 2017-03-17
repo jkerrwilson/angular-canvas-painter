@@ -111,6 +111,14 @@ angular.module('pw.canvas-painter')
           }
         });
 
+          scope.$watch('options.height', function(newValue) {
+              console.log("watching height " + newValue)
+          });
+
+          scope.$watch('options.width', function(newValue) {
+              console.log("watching width " + newValue)
+          });
+
         var getOffset = function(elem) {
           var offsetTop = 0;
           var offsetLeft = 0;
