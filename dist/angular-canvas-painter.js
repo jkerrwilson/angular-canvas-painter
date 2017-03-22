@@ -62,6 +62,17 @@ angular.module('pw.canvas-painter')
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
         options.backgroundColor = options.backgroundColor || '#000';
+        options.imageSrc = options.imageSrc || '';
+
+
+        // background image
+        if (options.imageSrc) {
+          var image = new Image();
+          image.onload = function() {
+              ctx.drawImage(this, 0, 0);
+          };
+          image.src = options.imageSrc;
+        }
 
         //undo
         if (options.undo) {
@@ -150,6 +161,18 @@ angular.module('pw.canvas-painter')
             canvas.height = canvasTmp.height = options.height = (calc_width*300)/12;
             ctx.rect(0,0, canvas.width, canvas.height);
             ctx.stroke();
+        });
+
+        scope.$watch('options.imageSrc', function(newValue) {
+          // background image
+          if (newValue) {
+              var image = new Image();
+              image.onload = function() {
+                  console.log(image.height, image.width);
+                  ctx.drawImage(image, 0, 0);
+              };
+              image.src = newValue;
+          }
         });
 
         var getOffset = function(elem) {
