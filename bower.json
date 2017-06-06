@@ -31,7 +31,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.1"
+    "angular": ">=1.5.11"
   },
   "license": "MIT"
 }
