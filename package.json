@@ -43,5 +43,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/pwambach/angular-canvas-painter.git"
+  },
+  "dependencies": {
+    "angular": "^1.6.4"
   }
 }
